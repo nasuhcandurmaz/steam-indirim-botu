@@ -7,10 +7,10 @@ import re
 from datetime import datetime
 from dotenv import load_dotenv
 
-# --- .env DOSYASINI YÜKLE ---
+
 load_dotenv()
 
-# --- TELEGRAM BİLGİLERİN (.env'den çekiliyor) ---
+
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
@@ -20,7 +20,7 @@ headers = {
 }
 cookies = {"birthtime": "786240001", "mature_content": "1"}
 
-# --- AYARLAR ---
+
 MIN_INDIRIM = 30  
 OYUN_SAYISI = 150 
 KABUL_EDILEN_INCELEMELER = ["Son Derece Olumlu", "Çok Olumlu", "Çoğunlukla Olumlu", "Karışık"] 
@@ -29,7 +29,7 @@ HEDEF_OYUN_SAYISI = 10
 BEKLEME_SURESI_GUN = 14 
 MIN_INCELEME_SAYISI = 500 
 
-# --- GÖRSELLİ MESAJ GÖNDERME FONKSİYONU ---
+
 def gorselli_mesaj_gonder(app_id, mesaj_metni):
     if not TOKEN or not CHAT_ID:
         print("❌ HATA: TOKEN veya CHAT_ID eksik! Lütfen .env dosyasını kontrol et.")
@@ -105,7 +105,7 @@ if os.path.exists(GONDERILENLER_DOSYASI):
         except json.JSONDecodeError:
             gonderilenler = {} 
 
-# --- GÜNCEL KURU ÇEK ---
+
 try:
     kur_yanit = requests.get("https://api.exchangerate-api.com/v4/latest/USD")
     dolar_kur = kur_yanit.json()["rates"]["TRY"]
@@ -114,7 +114,7 @@ except:
     dolar_kur = 32.0 
     print("Kur API'si yanıt vermedi, varsayılan kur kullanılıyor.\n")
 
-# --- STEAM LİSTESİNİ ÇEK ---
+
 liste_url = f"https://store.steampowered.com/search/results/?specials=1&json=1&cc=us&count={OYUN_SAYISI}"
 yanit = requests.get(liste_url, headers=headers)
 oyunlar = yanit.json()["items"]
@@ -184,7 +184,7 @@ for oyun in oyunlar:
 
     time.sleep(1) 
 
-# --- SONUÇLARI TELEGRAM'A GÖNDER VE KAYDET ---
+
 if gonderilecek_oyunlar:
     print(f"\n{len(gonderilecek_oyunlar)} Oyun Telegram'a görselleriyle gönderiliyor...\n")
     
